@@ -31,7 +31,16 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 		}
 	}
 	
-	//Inserting in the beginning. 
+	/**
+	 * Description: Inserts a new object into the priority queue
+	 * Parameters: Node for insertion 
+	 * Return: True if successfully inserted. False if the PriorityQueue is full
+	 * 
+	 * List is in descending order. Highest priority in the front.
+	 * 
+	 * If it is the first item in the list then insert.
+	 * else iterate throughout list to find priority location. Place at the end of priority.
+	 */
 	public boolean insert(E object) {
 		Node<E> newNode = new Node<E>(object);
 		Node<E> curr = head, prev = head;
@@ -39,11 +48,12 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 		if(head== null)
 			head = newNode;
 		else {
-			while(curr != null && object.compareTo(curr.data) >= 0) { //If the object has lower or equal priority keep going
+			//If the object has lower or equal priority keep going
+			while(curr != null && object.compareTo(curr.data) >= 0) { 
 				prev = curr;
 				curr = curr.next;
 			}
-				
+		
 			if(curr == head) {										
 				newNode.next = head;
 				head = newNode;
@@ -58,7 +68,16 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 		return true;	
 	}
 	
-	//Remove and return node with the highest priority
+	/**
+	 * Description: Removes and returns the object with the highest priority that's 
+	 * been in the priority queue the longest.
+	 * Parameters: No parameters
+	 * Return: Returns the object to be removed. Return null if the list is empty
+	 * 
+	 * The list is ordered in descending order of priority. Objects with the highest priority is in the front.
+	 * This group of nodes are also ordered in descending order, with the oldest in the front. 
+	 * 
+	 */
 	public E remove() {		
 		if(isEmpty()) {
 			return null;
@@ -70,7 +89,13 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 		return data;
 	}
 
-	//How to implement the modificationCounter?
+	/**
+	 * Description: Delete all instances of the object and return true.
+	 * Parameters: The object to be deleted
+	 * Return: Returns true after all objects have been deleted. Return false if no object is found. 
+	 * 
+	 * Iterate throughout list to find the object. Once it is found, delete it. 
+	 */
 	public boolean delete(E obj) {
 		Node <E>curr = head;
 		Node <E>prev = null;
@@ -81,10 +106,15 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 			return false;
 		}	
 		while(curr != null)
-			if(obj.compareTo(curr.data)==0) {	//If the object and the current data have the same priority 
-				if(curr == head)				//If the head is of the same priority, set head to the next node. Last head is garbage collected
+			//If the object and the current data have the same priority 
+			//place next over this object
+			//If it is not of the same priority right away, iterate to find it.
+			if(obj.compareTo(curr.data)==0) {	
+				//If the head is of the same priority, set head to the next node. Last head is garbage collected
+				//If it is not the head, but still of the same priority, set the previous node field to the node after current. 
+				if(curr == head)				
 					head = curr.next;
-				else {							//If it is not the head, but still of the same priority, set the previous node field to the node after current. 
+				else {							
 					prev.next = curr.next;
 					prev = curr;
 				}
@@ -93,45 +123,83 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 				curr = curr.next;
 				deleted = true;
 			}
-			else {								//If it is not of the same priority right away, iterate to find it.
+			else {								
 				prev = curr;
 				curr = curr.next;
 			}	
 			return deleted;	
 	}
 	
+	/**
+	 * Description: Return the object of the highest priority.
+	 * Parameters: No Parameters
+	 * Return: Return the object of the highest priority. If the list is false, return null.
+	 * 
+	 * Since the list is ordered in descending order the first object is the highest.
+	 */
 	public E peek() {
 		if(isEmpty())
 			return null;	
 		return head.data;		
 	}
 	
+	/**
+	 * Description: See if the list contains an object
+	 * Parameters: None
+	 * Return: Return true if it contains object. Return false if not. 
+	 * 
+	 * Iterate throughout list to find the object.
+	 * 
+	 */
 	public boolean contains(E obj) {
 		Node <E>temp = head;
 		
 		while (temp !=null) {
-			if(obj.compareTo(temp.data) == 0)		//If the object is found, return true.
+			if(obj.compareTo(temp.data) == 0)		
 				return true;
 			temp = temp.next;
 		}
 		return false;
 	}
 
+	/**
+	 * Description: Get the size of list
+	 * Parameters: None
+	 * Return: The size of the list
+	 */
 	public int size() {
 		return size;
 	}
 	
+	/**
+	 * Description: Clear the list
+	 * Parameters: None
+	 * Return: Nothing
+	 * 
+	 * Set the head of the list to null, then the rest of the list is garbage collected.
+	 */
 	public void clear() {
 		head = null;
 		size = 0;
 		modificationCounter++;		
 	}
 	
+	/**
+	 * Description: Return true if the list is empty, otherwise false.
+	 * Parameters: None
+	 * Return: Boolean statement if whether the list if empty.
+	 */
 	public boolean isEmpty() {
 		return size == 0;
 	}
 	
-	//A linked-list can never be full.
+	/**
+	 * Description: Return true if the list is full, otherwise false.
+	 * Parameters: None
+	 * Return: False
+	 * 
+	 * A linked list can never be full.
+	 */
 	public boolean isFull() {
 		return false;
 	}
