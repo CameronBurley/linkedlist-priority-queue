@@ -59,8 +59,8 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 				head = newNode;
 			}
 			else {
-			newNode.next = prev.next;
-			prev.next = newNode;
+				newNode.next = prev.next;
+				prev.next = newNode;
 			}	
 		}
 		size++;
@@ -79,9 +79,9 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 	 * 
 	 */
 	public E remove() {		
-		if(isEmpty()) {
+		if(isEmpty()) 
 			return null;
-		}
+		
 		E data = head.data;
 		head = head.next;
 		size--;
@@ -154,7 +154,7 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 	public boolean contains(E obj) {
 		Node <E>temp = head;
 		
-		while (temp !=null) {
+		while (temp != null) {
 			if(obj.compareTo(temp.data) == 0)		
 				return true;
 			temp = temp.next;
@@ -222,12 +222,10 @@ public class OrderedLinkedListPriorityQueue<E extends Comparable<E>> implements 
 		}
 		
 		public E next() {
-			if(!hasNext()) {
+			if(!hasNext()) 
 				throw new NoSuchElementException();
-			}
-			if(modCounter != modificationCounter) {
+			if(modCounter != modificationCounter) 
 				throw new ConcurrentModificationException();
-			}
 			E tmp = nodePtr.data;
 			nodePtr = nodePtr.next;
 			return tmp;
